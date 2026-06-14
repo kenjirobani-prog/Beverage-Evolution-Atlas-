@@ -5,7 +5,9 @@ import Header from "@/components/Header";
 import CategoryTabs from "@/components/CategoryTabs";
 import AtlasChart from "@/components/AtlasChart";
 import DetailPanel from "@/components/DetailPanel";
+import YearSlider from "@/components/YearSlider";
 import { fetchWorldBankMetrics } from "@/lib/worldbank";
+import { FORECAST_MIN_YEAR } from "@/lib/forecast";
 import { allIso3, buildCountryViews } from "@/lib/view";
 import type { Category, CountryView, ISO3, WorldBankMetrics } from "@/lib/types";
 
@@ -16,6 +18,7 @@ export default function Home() {
   const [metrics, setMetrics] = useState<Record<string, WorldBankMetrics>>({});
   const [category, setCategory] = useState<Category>("water");
   const [selectedIso, setSelectedIso] = useState<ISO3 | null>("JPN");
+  const [year, setYear] = useState<number>(FORECAST_MIN_YEAR);
 
   useEffect(() => {
     let cancelled = false;
@@ -71,11 +74,13 @@ export default function Home() {
                     進化マップ：GDP × 嗜好
                   </h2>
                   <CategoryTabs selected={category} onSelect={setCategory} />
+                  <YearSlider year={year} onChange={setYear} />
                 </div>
                 <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
                   <AtlasChart
                     views={views}
                     category={category}
+                    year={year}
                     selectedIso={selectedIso}
                     onSelect={setSelectedIso}
                   />

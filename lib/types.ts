@@ -50,6 +50,7 @@ export interface CountrySeed {
 // Live indicators pulled from the World Bank API (client-side).
 export interface WorldBankMetrics {
   gdpPcapPpp?: number; // NY.GDP.PCAP.PP.KD (constant 2021 int'l $, real PPP)
+  gdpYear?: number; // the mrnev year of the GDP observation (forecast base year)
   urbanPct?: number; // SP.URB.TOTL.IN.ZS
   femaleLaborPct?: number; // SL.TLF.CACT.FE.ZS
   pop65Pct?: number; // SP.POP.65UP.TO.ZS
@@ -61,4 +62,7 @@ export interface CountryView extends CountrySeed {
   // Effective GDP/capita PPP used by all logic (live, or seed fallback).
   gdp: number;
   gdpIsFallback: boolean;
+  // Base year of `gdp` — the World Bank mrnev year, or a fallback year for
+  // countries served from seed (e.g. TWN). Used as the forecast origin.
+  baseYear: number;
 }

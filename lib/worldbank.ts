@@ -15,22 +15,26 @@ interface WbRow {
 
 type IndicatorKey = keyof typeof WB_INDICATORS;
 
+// Returns per-country { value, year } for the latest non-null observation.
 async function fetchIndicator(
   isoList: ISO3[],
   code: string,
-): Promise<Record<string, number>> {
+): Promise<Record<string, { value: number; year: number }>> {
   const countries = isoList.join(";");
   const url = `${BASE}/country/${countries}/indicator/${code}?format=json&mrnev=1&per_page=500`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`World Bank ${code} -> HTTP ${res.status}`);
   const json = (await res.json()) as unknown;
-  const out: Record<string, number> = {};
+  const out: Record<string, { value: number; year: number }> = {};
   if (Array.isArray(json) && Array.isArray(json[1])) {
     for (const row of json[1] as WbRow[]) {
       if (row && row.value != null && row.countryiso3code) {
         // Keep the first (latest) non-null we encounter per country.
         if (out[row.countryiso3code] == null) {
-          out[row.countryiso3code] = row.value;
+          out[row.countryiso3code] = {
+            value: row.value,
+            year: Number(row.date),
+          };
         }
       }
     }
@@ -55,9 +59,11 @@ export async function fetchWorldBankMetrics(
   settled.forEach((result, i) => {
     if (result.status !== "fulfilled") return; // indicator unavailable -> skip
     const key = keys[i];
-    for (const [iso, value] of Object.entries(result.value)) {
+    for (const [iso, obs] of Object.entries(result.value)) {
       if (!merged[iso]) merged[iso] = {};
-      merged[iso][key] = value;
+      merged[iso][key] = obs.value;
+      // Capture the base year of the GDP observation (used by the forecast).
+      if (key === "gdpPcapPpp") merged[iso].gdpYear = obs.year;
     }
   });
 

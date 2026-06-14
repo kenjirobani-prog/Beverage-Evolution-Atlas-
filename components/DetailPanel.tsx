@@ -14,6 +14,7 @@ import {
   type Engine,
   type JapanLagStatus,
 } from "@/lib/logic";
+import { projectionTimeline, type CrossingStatus } from "@/lib/forecast";
 import type { Category, CountryView } from "@/lib/types";
 
 // いま効くエンジン（engineInSeason）の日本語表示。
@@ -33,6 +34,15 @@ const STATUS_LABEL: Record<JapanLagStatus, string> = {
 
 const CLOCK_NOTE =
   "拡散時計は方向性の発展段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。";
+
+// 予測タイムラインの行スタイル（次の5年以内＝soon を強調）。
+const CROSSING_STYLE: Record<CrossingStatus, string> = {
+  reached: "bg-slate-100 text-slate-400",
+  soon: "bg-gold/90 text-[#2d2d2d] font-bold ring-1 ring-gold",
+  window: "bg-light-blue text-navy",
+  beyond: "bg-white text-slate-400 border border-slate-200",
+  never: "bg-white text-slate-300 border border-dashed border-slate-200",
+};
 
 function Bar({ label, value }: { label: string; value: number }) {
   return (
@@ -91,6 +101,7 @@ export default function DetailPanel({
   const rec = portfolioRecommendation(engine);
   const ws = whiteSpace(view);
   const anchor = JAPAN_TAKEOFF[category];
+  const timeline = projectionTimeline(view);
 
   const lagColor =
     lag.status === "takeoff-now"
@@ -177,6 +188,23 @@ export default function DetailPanel({
         <div className="mt-3 inline-block rounded-md bg-teal/20 px-2.5 py-1 text-xs font-semibold text-navy">
           いま効くエンジン：{ENGINE_LABEL[engine]}
         </div>
+      </Section>
+
+      <Section title="予測タイムライン">
+        <p className="mb-2 text-[10px] text-slate-500">
+          各カテゴリーが日本の離陸水準に到達する予測年（早い順）。金＝今後5年以内に到達見込み。
+        </p>
+        <ul className="space-y-1">
+          {timeline.map((t) => (
+            <li
+              key={t.category}
+              className={`flex items-center justify-between rounded-md px-2.5 py-1 text-xs ${CROSSING_STYLE[t.status]}`}
+            >
+              <span>{CATEGORY_LABEL[t.category]}</span>
+              <span className="tabular-nums">{t.label}</span>
+            </li>
+          ))}
+        </ul>
       </Section>
 
       <Section title="推奨ポートフォリオ">

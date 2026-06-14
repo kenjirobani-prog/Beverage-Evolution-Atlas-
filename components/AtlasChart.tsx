@@ -16,12 +16,17 @@ import {
 import { JAPAN_TAKEOFF_GDP } from "@/data/japanTrajectory";
 import { getBeverage } from "@/lib/beverage";
 import { CATEGORY_LABEL, PALETTE } from "@/lib/constants";
+import { projectedGdp } from "@/lib/forecast";
 import type { Category, CountryView, ISO3 } from "@/lib/types";
 
 interface Point {
   iso: ISO3;
   name: string;
-  gdp: number;
+  nameJp: string;
+  gdp: number; // projected GDP at the slider year (X position)
+  baseGdp: number; // current/base GDP
+  year: number;
+  isProjected: boolean;
   vol: number;
   isJapan: boolean;
   fallback: boolean;
@@ -47,13 +52,18 @@ function ChartTooltip({
   return (
     <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs shadow-lg">
       <div className="font-bold text-navy">
-        {p.name} ({p.iso})
+        {p.nameJp} ({p.iso})
       </div>
       <div className="text-slate-600">
-        実質GDP/capita（PPP）:{" "}
+        {p.isProjected ? `実質GDP（${p.year}年 投影）` : "実質GDP/capita（PPP）"}:{" "}
         <strong>${Math.round(p.gdp).toLocaleString()}</strong>
         {p.fallback && <span className="text-gold">（シード値）</span>}
       </div>
+      {p.isProjected && (
+        <div className="text-[10px] text-slate-400">
+          現在（{Math.round(p.baseGdp).toLocaleString()}）からの単純投影
+        </div>
+      )}
       <div className="text-slate-600">
         消費（暫定）: <strong>{p.vol}</strong>{" "}
         <span className="italic text-slate-400">（代理値）</span>
@@ -65,21 +75,28 @@ function ChartTooltip({
 export default function AtlasChart({
   views,
   category,
+  year,
   selectedIso,
   onSelect,
 }: {
   views: CountryView[];
   category: Category;
+  year: number;
   selectedIso: ISO3 | null;
   onSelect: (iso: ISO3) => void;
 }) {
   const data: Point[] = views
     .map((v) => {
       const bev = getBeverage(v.iso3, category);
+      const isProjected = year > v.baseYear;
       return {
         iso: v.iso3,
         name: v.name,
-        gdp: v.gdp,
+        nameJp: v.nameJp,
+        gdp: projectedGdp(v, year),
+        baseGdp: v.gdp,
+        year,
+        isProjected,
         vol: bev?.proxyPerCapita ?? 0,
         isJapan: v.iso3 === "JPN",
         fallback: v.gdpIsFallback,
@@ -158,6 +175,9 @@ export default function AtlasChart({
               if (iso) onSelect(iso);
             }}
             cursor="pointer"
+            isAnimationActive
+            animationDuration={600}
+            animationEasing="ease"
           >
             {data.map((p) => {
               const selected = p.iso === selectedIso;

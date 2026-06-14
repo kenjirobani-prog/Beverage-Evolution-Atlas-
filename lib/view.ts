@@ -5,6 +5,9 @@
 import { listCountrySeeds } from "./beverage";
 import type { CountryView, ISO3, WorldBankMetrics } from "./types";
 
+// Base year for countries served from seed fallback (no World Bank year).
+export const FALLBACK_BASE_YEAR = 2024;
+
 export function buildCountryViews(
   metricsByIso: Record<string, WorldBankMetrics>,
 ): CountryView[] {
@@ -14,7 +17,8 @@ export function buildCountryViews(
       const live = metrics.gdpPcapPpp;
       const gdpIsFallback = live == null;
       const gdp = live ?? seed.gdpFallback ?? 0;
-      return { ...seed, metrics, gdp, gdpIsFallback };
+      const baseYear = metrics.gdpYear ?? FALLBACK_BASE_YEAR;
+      return { ...seed, metrics, gdp, gdpIsFallback, baseYear };
     })
     .filter((v) => v.gdp > 0);
 }
