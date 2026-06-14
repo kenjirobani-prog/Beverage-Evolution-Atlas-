@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  /* Suntory palette */
+  --bea-navy: #1a3558;
+  --bea-dark-navy: #002060;
+  --bea-teal: #5bc2dc;
+  --bea-light-blue: #e6f5f9;
+  --bea-text: #2d2d2d;
+  --bea-gold: #c9a227;
+
+  --background: #ffffff;
+  --foreground: var(--bea-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--bea-navy);
+  --color-dark-navy: var(--bea-dark-navy);
+  --color-teal: var(--bea-teal);
+  --color-light-blue: var(--bea-light-blue);
+  --color-gold: var(--bea-gold);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    Meiryo, system-ui, sans-serif;
+}
+
+/* Teal left-accent bar on section headings. */
+.bea-heading {
+  border-left: 4px solid var(--bea-teal);
+  padding-left: 0.625rem;
+  color: var(--bea-navy);
+  font-weight: 600;
+}
