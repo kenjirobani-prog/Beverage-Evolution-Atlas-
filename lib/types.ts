@@ -13,6 +13,7 @@ export type Category =
   | "sports_energy"
   | "functional"
   | "protein"
+  | "rtd_alcohol"
   | "beer"
   | "spirits_main"
   | "spirits_premium";

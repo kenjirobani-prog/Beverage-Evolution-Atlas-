@@ -19,7 +19,7 @@ export default function Header() {
         <p className="mt-2 text-xs text-light-blue/90">
           マクロ指標＝World Bankライブ取得／飲料消費＝
           <strong className="font-semibold">暫定（代理）データ</strong>
-          。Passport導入時に差し替え。日本を先行指標（北極星）として参照。
+          。Passport導入時に差し替え。日本を先行指標として参照。
         </p>
       </div>
     </header>

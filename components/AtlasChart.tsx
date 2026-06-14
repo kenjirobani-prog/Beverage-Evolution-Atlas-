@@ -155,7 +155,7 @@ export default function AtlasChart({
             stroke={PALETTE.gold}
             strokeWidth={1.5}
             label={{
-              value: `日本離陸 ${fmtUSD(anchor)}`,
+              value: `日本浸透 ${fmtUSD(anchor)}`,
               position: "top",
               fill: PALETTE.gold,
               fontSize: 10,

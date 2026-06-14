@@ -48,6 +48,12 @@ export const JAPAN_TAKEOFF: Record<Category, JapanAnchor> = {
     approxRealGdpPppConst: 23000,
     sourceNote: "ポカリ1980/アクエリアス1983",
   },
+  rtd_alcohol: {
+    takeoffYear: 1984,
+    approxRealGdpPppConst: 24000,
+    sourceNote:
+      "タカラcanチューハイ1984（日本初の缶チューハイ）→80sチューハイブーム,2001氷結で女性層拡大",
+  },
   rtd_tea_unsweet: {
     takeoffYear: 1990,
     approxRealGdpPppConst: 33000,

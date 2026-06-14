@@ -42,7 +42,7 @@ export function crossingYear(view: CountryView, category: Category): Crossing {
   if (baseGdp >= anchor) {
     return {
       category,
-      label: "離陸後（到達済み）",
+      label: "浸透済（到達済み）",
       status: "reached",
       sortKey: -1,
     };

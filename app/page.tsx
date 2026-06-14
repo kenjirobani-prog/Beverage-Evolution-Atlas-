@@ -85,7 +85,7 @@ export default function Home() {
                     onSelect={setSelectedIso}
                   />
                   <p className="px-2 pt-1 text-[10px] italic text-slate-400">
-                    縦軸＝一人当たり消費の暫定（代理）値（Passport導入前）。金のドット＝日本（先行指標／北極星）。金の縦線＝選択カテゴリーにおける日本の離陸GDP。
+                    縦軸＝一人当たり消費の暫定（代理）値（Passport導入前）。金のドット＝日本（先行指標）。金の縦線＝選択カテゴリーにおける日本の浸透GDP。
                   </p>
                   <p className="px-2 pt-1 text-[10px] leading-snug text-slate-400">
                     拡散時計は方向性の発展段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。
