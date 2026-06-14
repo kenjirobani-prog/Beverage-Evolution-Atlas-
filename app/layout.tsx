@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Beverage Evolution Atlas — Suntory",
   description:
-    "国の成長 × 嗜好変化アトラス — where each market sits on the beverage evolution curve, with Japan as the north star. PROXY DATA, pre-Passport v0.",
+    "国の成長 × 嗜好変化アトラス — 各国が飲料進化曲線のどこに位置するかを、日本を先行指標として可視化。暫定（代理）データ、Passport導入前 v0。",
 };
 
 export default function RootLayout({
