@@ -43,10 +43,16 @@ export const JAPAN_TAKEOFF: Record<Category, JapanAnchor> = {
     approxRealGdpPppConst: 19000,
     sourceNote: "ウイスキー水割り・焼酎の大衆化",
   },
-  sports_energy: {
+  sports: {
     takeoffYear: 1983,
     approxRealGdpPppConst: 23000,
     sourceNote: "ポカリ1980/アクエリアス1983",
+  },
+  energy: {
+    takeoffYear: 2006,
+    approxRealGdpPppConst: 35000,
+    sourceNote:
+      "レッドブル日本上陸2005/06→モンスター2012で拡大（医薬部外品の栄養ドリンクとは別カテゴリー）",
   },
   rtd_alcohol: {
     takeoffYear: 1984,

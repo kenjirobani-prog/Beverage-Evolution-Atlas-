@@ -113,7 +113,10 @@ export default function AtlasChart({
         fallback: v.gdpIsFallback,
       };
     })
-    .filter((p) => p.gdp > 0);
+    .filter((p) => p.gdp > 0)
+    // On real-data categories, drop proxy points (e.g. TWN on beer/spirits)
+    // so their index values don't distort the real-unit axis.
+    .filter((p) => categoryMeta(category).isProxy || !p.volIsProxy);
 
   const anchor = JAPAN_TAKEOFF_GDP[category];
   const meta = categoryMeta(category);

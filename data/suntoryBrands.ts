@@ -18,7 +18,8 @@ export const SUNTORY_BRANDS: Partial<
     rtd_tea_unsweet: ["伊右衛門"],
     functional: ["特茶"],
     rtd_coffee: ["BOSS"],
-    sports_energy: ["GREEN DA・KA・RA"],
+    sports: ["GREEN DA・KA・RA"],
+    energy: ["ZONe"],
     csd_sugar: ["C.C.レモン", "ペプシ"],
     juice: ["なっちゃん"],
   },
@@ -42,7 +43,7 @@ export const SUNTORY_BRANDS: Partial<
     ],
     spirits_main: ["Teacher's"],
     rtd_alcohol: ["-196", "Sipsmith缶"],
-    sports_energy: ["Lucozade"],
+    energy: ["Lucozade"],
     juice: ["Ribena"],
   },
   FRA: {
@@ -55,14 +56,14 @@ export const SUNTORY_BRANDS: Partial<
     rtd_tea_unsweet: ["TEA+", "MYTEA"],
     csd_sugar: ["ペプシ", "7UP"],
     water: ["AQUAFINA"],
-    sports_energy: ["Sting"],
+    energy: ["Sting"],
   },
   THA: {
     functional: ["BRAND'S"],
     rtd_alcohol: ["ほろよい"],
     rtd_tea_unsweet: ["TEA+"],
     csd_sugar: ["ペプシ", "Mirinda", "7UP"],
-    sports_energy: ["Gatorade"],
+    sports: ["Gatorade"],
   },
   IDN: {
     rtd_tea_unsweet: ["MYTEA", "Mountea"],
@@ -72,16 +73,16 @@ export const SUNTORY_BRANDS: Partial<
   MYS: {
     functional: ["BRAND'S"],
     juice: ["Ribena"],
-    sports_energy: ["Lucozade"],
+    energy: ["Lucozade"],
   },
   SGP: {
     functional: ["BRAND'S"],
     juice: ["Ribena"],
-    sports_energy: ["Lucozade"],
+    energy: ["Lucozade"],
   },
   AUS: {
     rtd_alcohol: ["-196", "Koyomi Highball", "ジムビーム缶"],
-    sports_energy: ["V Energy"],
+    energy: ["V Energy"],
     juice: ["Simply Squeezed", "Juice On"],
   },
 };

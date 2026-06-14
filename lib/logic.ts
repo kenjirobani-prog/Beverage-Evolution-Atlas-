@@ -1,20 +1,9 @@
-// LOGIC LAYER — pure functions over GDP, demographics and the proxy dataset.
-// Reads beverage data ONLY via getBeverage(); reads Japan anchors via the
-// JAPAN_TAKEOFF_GDP template. No UI concerns here.
+// LOGIC LAYER — pure functions over GDP and the Japan-takeoff template.
+// No UI concerns here.
 
 import { JAPAN_TAKEOFF_GDP } from "@/data/japanTrajectory";
 import { CATEGORIES, STAGES } from "./constants";
-import { getBeverage } from "./beverage";
-import type { Category, CountryView, Stage } from "./types";
-
-function clamp(n: number, lo: number, hi: number): number {
-  return Math.max(lo, Math.min(hi, n));
-}
-
-// Standard logistic mapped to 0..100.
-function logistic100(x: number, center: number, k: number): number {
-  return 100 / (1 + Math.exp(-k * (x - center)));
-}
+import type { Category, Stage } from "./types";
 
 // --- Ladder stage -----------------------------------------------------------
 
@@ -54,78 +43,4 @@ export function nextToTakeoff(gdp: number): Category[] {
     .filter((cat) => JAPAN_TAKEOFF_GDP[cat] > gdp)
     .sort((a, b) => JAPAN_TAKEOFF_GDP[a] - JAPAN_TAKEOFF_GDP[b])
     .slice(0, 3);
-}
-
-// --- Dual engines -----------------------------------------------------------
-
-// Sugar-shedding / wellness terrain. Logistic in GDP centered at 22k, plus a
-// demographic bonus from the 65+ share of population.
-export function healthPivotIndex(country: CountryView): number {
-  const base = logistic100(country.gdp, 22000, 0.0002);
-  const bonus = Math.min(20, (country.metrics.pop65Pct ?? 0) * 0.8);
-  return Math.round(clamp(base + bonus, 0, 100));
-}
-
-// Premiumisation readiness. Logistic in GDP centered at 30k; hard-capped at 30
-// where alcohol permissibility is restricted.
-export function premiumizationClock(country: CountryView): number {
-  const base = logistic100(country.gdp, 30000, 0.0002);
-  const capped =
-    country.alcohol_permissibility === "restricted" ? Math.min(base, 30) : base;
-  return Math.round(clamp(capped, 0, 100));
-}
-
-export type Engine = "health" | "premium" | "both" | "emerging";
-
-export function engineInSeason(country: CountryView): Engine {
-  const h = healthPivotIndex(country);
-  const p = premiumizationClock(country);
-  if (h >= 60 && p >= 60) return "both";
-  if (h >= 60 && p < 60) return "health";
-  if (p >= 60 && h < 60) return "premium";
-  return "emerging";
-}
-
-// --- White space ------------------------------------------------------------
-
-// Categories where the market is at/past Japan's takeoff for that category AND
-// Suntory's presence is still 'none' or 'low' — i.e. unclaimed terrain.
-export function whiteSpace(country: CountryView): Category[] {
-  return CATEGORIES.map((c) => c.key).filter((cat) => {
-    const atOrPast = country.gdp >= JAPAN_TAKEOFF_GDP[cat];
-    const datum = getBeverage(country.iso3, cat);
-    const weak =
-      datum?.suntory_presence === "none" || datum?.suntory_presence === "low";
-    return atOrPast && weak;
-  });
-}
-
-// --- Portfolio recommendation ------------------------------------------------
-
-export function portfolioRecommendation(engine: Engine): {
-  headline: string;
-  brands: string;
-} {
-  switch (engine) {
-    case "health":
-      return {
-        headline: "健康エンジン主導：脱・砂糖が進行。",
-        brands: "天然水 ・ 伊右衛門特茶 ・ GREEN DA・KA・RA",
-      };
-    case "premium":
-      return {
-        headline: "プレミアムエンジン主導：高付加価値化が進行。",
-        brands: "山崎 ・ 白州 ・ 響",
-      };
-    case "both":
-      return {
-        headline: "バーベル戦略：健康とプレミアムを同時展開。",
-        brands: "天然水・特茶・GREEN DA・KA・RA  ＋  山崎・白州・響",
-      };
-    default:
-      return {
-        headline: "黎明市場：主流アクセスを確保しブランドを育成。",
-        brands: "サントリー天然水 ・ BOSS ・ 主流炭酸での参入",
-      };
-  }
 }

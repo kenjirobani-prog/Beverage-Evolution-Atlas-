@@ -96,11 +96,16 @@ export default function Home() {
                       </span>
                     )}
                   </div>
+                  {(category === "beer" || category === "spirits_main") && (
+                    <p className="px-2 pt-1 text-[10px] text-slate-400">
+                      WHOのspirits定義は狭義（焼酎・泡盛・清酒・RTDを含まない）。
+                    </p>
+                  )}
                   <p className="px-2 pt-1 text-[10px] italic text-slate-400">
                     縦軸＝選択カテゴリーの一人当たり消費（{categoryMeta(category).unit}）。金のドット＝日本（先行指標）。金の縦線＝選択カテゴリーにおける日本の浸透GDP。
                   </p>
                   <p className="px-2 pt-1 text-[10px] leading-snug text-slate-400">
-                    拡散時計は方向性の発展段階アナログ（実質PPP＝購買力平価ベース・概算）。正確な年数予測ではない。
+                    拡散時計は方向性の市場状況の段階アナログ（実質PPP＝購買力平価ベース・概算）。正確な年数予測ではない。
                   </p>
                 </div>
               </section>

@@ -1,6 +1,6 @@
 import type { Category, Stage } from "./types";
 
-// The 13 beverage categories tracked by the Atlas, in evolution-ladder order.
+// The 14 beverage categories tracked by the Atlas, in evolution-ladder order.
 // Display labels are Japanese; `key` stays the English code identifier.
 export const CATEGORIES: { key: Category; label: string; labelJp: string }[] = [
   { key: "water", label: "水", labelJp: "水" },
@@ -9,7 +9,8 @@ export const CATEGORIES: { key: Category; label: string; labelJp: string }[] = [
   { key: "rtd_tea_unsweet", label: "無糖RTD茶", labelJp: "無糖RTD茶" },
   { key: "rtd_coffee", label: "RTDコーヒー", labelJp: "RTDコーヒー" },
   { key: "juice", label: "果汁", labelJp: "果汁" },
-  { key: "sports_energy", label: "スポーツ・エナジー", labelJp: "スポーツ・エナジー" },
+  { key: "sports", label: "スポーツドリンク", labelJp: "スポーツドリンク" },
+  { key: "energy", label: "エナジードリンク", labelJp: "エナジードリンク" },
   { key: "functional", label: "機能性（トクホ）", labelJp: "機能性（トクホ）" },
   { key: "protein", label: "プロテイン飲料", labelJp: "プロテイン飲料" },
   {

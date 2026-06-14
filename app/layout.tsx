@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Beverage Evolution Atlas — Suntory",
   description:
-    "国の成長 × 嗜好変化アトラス — 各国が飲料進化曲線のどこに位置するかを、日本を先行指標として可視化。暫定（代理）データ、Passport導入前 v0。",
+    "国の成長 × 嗜好変化アトラス — 各国が飲料進化曲線のどこに位置するかを、日本を先行指標として可視化。酒類はWHO実データ、その他は暫定（代理）データ。Passport導入前。",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

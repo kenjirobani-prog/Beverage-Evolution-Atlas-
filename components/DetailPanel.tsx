@@ -20,7 +20,7 @@ const STATUS_LABEL: Record<JapanLagStatus, string> = {
 };
 
 const CLOCK_NOTE =
-  "拡散時計は方向性の発展段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。";
+  "拡散時計は方向性の市場状況の段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。";
 
 // 予測タイムラインの行スタイル（次の5年以内＝soon を強調）。
 const CROSSING_STYLE: Record<CrossingStatus, string> = {
@@ -80,7 +80,7 @@ export default function DetailPanel({
   if (!view) {
     return (
       <div className="flex h-full min-h-[300px] items-center justify-center rounded-lg border border-dashed border-slate-300 bg-light-blue/40 p-6 text-center text-sm text-slate-500">
-        チャート上の国（ドット）をクリックすると、発展ステージ・日本=先行指標ラグ（拡散時計）・予測タイムライン・推奨ポートフォリオを表示します。
+        チャート上の国（ドット）をクリックすると、酒類/飲料の市場状況・日本＝先行指標・予測タイムライン・推奨ポートフォリオを表示します。
       </div>
     );
   }
