@@ -17,7 +17,7 @@ type Status = "loading" | "ready" | "error";
 export default function Home() {
   const [status, setStatus] = useState<Status>("loading");
   const [metrics, setMetrics] = useState<Record<string, WorldBankMetrics>>({});
-  const [category, setCategory] = useState<Category>("water");
+  const [category, setCategory] = useState<Category>("beer");
   const [selectedIso, setSelectedIso] = useState<ISO3 | null>("JPN");
   const [year, setYear] = useState<number>(FORECAST_MIN_YEAR);
 
