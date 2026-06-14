@@ -53,14 +53,13 @@ export default function Home() {
       <main className="mx-auto w-full max-w-[1400px] flex-1 px-6 py-6">
         {status === "loading" ? (
           <div className="flex h-[400px] items-center justify-center text-sm text-slate-500">
-            Loading live World Bank indicators…
+            World Bankの実データを取得中…
           </div>
         ) : (
           <>
             {status === "error" && (
               <div className="mb-4 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-                Live World Bank data is unavailable right now — showing seed
-                fallbacks where present. Macro positions may be incomplete.
+                World Bankのライブデータを取得できませんでした。シード値がある国のみ表示しています。マクロ指標が不完全な場合があります。
               </div>
             )}
 
@@ -69,7 +68,7 @@ export default function Home() {
               <section className="min-w-0">
                 <div className="mb-3 flex flex-col gap-3">
                   <h2 className="bea-heading text-base">
-                    Evolution map · GDP × taste
+                    進化マップ：GDP × 嗜好
                   </h2>
                   <CategoryTabs selected={category} onSelect={setCategory} />
                 </div>
@@ -81,9 +80,10 @@ export default function Home() {
                     onSelect={setSelectedIso}
                   />
                   <p className="px-2 pt-1 text-[10px] italic text-slate-400">
-                    Y-axis = illustrative PROXY per-capita volume (pre-Passport).
-                    Gold dot = Japan (north star). Gold line = Japan&apos;s takeoff
-                    GDP for the selected category.
+                    縦軸＝一人当たり消費の暫定（代理）値（Passport導入前）。金のドット＝日本（先行指標／北極星）。金の縦線＝選択カテゴリーにおける日本の離陸GDP。
+                  </p>
+                  <p className="px-2 pt-1 text-[10px] leading-snug text-slate-400">
+                    拡散時計は方向性の発展段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。
                   </p>
                 </div>
               </section>
@@ -99,10 +99,9 @@ export default function Home() {
 
       <footer className="border-t border-slate-200 bg-light-blue/40">
         <div className="mx-auto max-w-[1400px] px-6 py-3 text-[11px] text-slate-500">
-          Sources: macro = World Bank API v2 (live, latest available year);
-          beverage volumes &amp; Suntory presence ={" "}
-          <strong>illustrative proxy</strong>, to be replaced by Euromonitor
-          Passport. All beverage figures are PROXY and not for external citation.
+          マクロ指標＝World Bankライブ取得（API v2・実質PPP定数国際$・取得可能な最新年）／飲料消費＝
+          <strong>暫定（代理）データ</strong>
+          。Passport導入時に差し替え。すべての飲料数値は暫定であり、外部引用不可。
         </div>
       </footer>
     </div>

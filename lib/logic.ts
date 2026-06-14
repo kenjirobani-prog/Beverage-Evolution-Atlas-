@@ -109,23 +109,23 @@ export function portfolioRecommendation(engine: Engine): {
   switch (engine) {
     case "health":
       return {
-        headline: "Lead with the wellness engine — sugar is receding.",
+        headline: "健康エンジン主導：脱・砂糖が進行。",
         brands: "天然水 ・ 伊右衛門特茶 ・ GREEN DA・KA・RA",
       };
     case "premium":
       return {
-        headline: "Lead with the premium engine — trade-up is live.",
+        headline: "プレミアムエンジン主導：高付加価値化が進行。",
         brands: "山崎 ・ 白州 ・ 響",
       };
     case "both":
       return {
-        headline: "Barbell play — run health and premium engines together.",
+        headline: "バーベル戦略：健康とプレミアムを同時展開。",
         brands: "天然水・特茶・GREEN DA・KA・RA  ＋  山崎・白州・響",
       };
     default:
       return {
-        headline: "Emerging market — seed mainstream access, build the brand.",
-        brands: "サントリー天然水 ・ BOSS ・ mainstream CSD entry",
+        headline: "黎明市場：主流アクセスを確保しブランドを育成。",
+        brands: "サントリー天然水 ・ BOSS ・ 主流炭酸での参入",
       };
   }
 }

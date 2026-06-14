@@ -50,12 +50,13 @@ function ChartTooltip({
         {p.name} ({p.iso})
       </div>
       <div className="text-slate-600">
-        GDP/cap PPP: <strong>${Math.round(p.gdp).toLocaleString()}</strong>
-        {p.fallback && <span className="text-gold"> (seed)</span>}
+        実質GDP/capita（PPP）:{" "}
+        <strong>${Math.round(p.gdp).toLocaleString()}</strong>
+        {p.fallback && <span className="text-gold">（シード値）</span>}
       </div>
       <div className="text-slate-600">
-        Proxy vol: <strong>{p.vol}</strong>{" "}
-        <span className="italic text-slate-400">(illustrative)</span>
+        消費（暫定）: <strong>{p.vol}</strong>{" "}
+        <span className="italic text-slate-400">（代理値）</span>
       </div>
     </div>
   );
@@ -104,7 +105,7 @@ export default function AtlasChart({
             tick={{ fontSize: 11, fill: PALETTE.text }}
             tickFormatter={fmtUSD}
             label={{
-              value: "GDP / capita (PPP, USD) — log scale",
+              value: "実質GDP/capita（PPP・定数国際$）— 対数軸",
               position: "insideBottom",
               offset: -28,
               style: { fontSize: 12, fill: PALETTE.navy },
@@ -116,7 +117,7 @@ export default function AtlasChart({
             name="Proxy per-capita"
             tick={{ fontSize: 11, fill: PALETTE.text }}
             label={{
-              value: `${CATEGORY_LABEL[category]} — proxy per-capita (illustrative)`,
+              value: `${CATEGORY_LABEL[category]}／一人当たり消費（暫定）`,
               angle: -90,
               position: "insideLeft",
               style: { fontSize: 12, fill: PALETTE.navy, textAnchor: "middle" },
@@ -137,7 +138,7 @@ export default function AtlasChart({
             stroke={PALETTE.gold}
             strokeWidth={1.5}
             label={{
-              value: `JP takeoff ${fmtUSD(anchor)}`,
+              value: `日本離陸 ${fmtUSD(anchor)}`,
               position: "top",
               fill: PALETTE.gold,
               fontSize: 10,

@@ -12,6 +12,7 @@ export type Category =
   | "juice"
   | "sports_energy"
   | "functional"
+  | "protein"
   | "beer"
   | "spirits_main"
   | "spirits_premium";
@@ -48,7 +49,7 @@ export interface CountrySeed {
 
 // Live indicators pulled from the World Bank API (client-side).
 export interface WorldBankMetrics {
-  gdpPcapPpp?: number; // NY.GDP.PCAP.PP.CD
+  gdpPcapPpp?: number; // NY.GDP.PCAP.PP.KD (constant 2021 int'l $, real PPP)
   urbanPct?: number; // SP.URB.TOTL.IN.ZS
   femaleLaborPct?: number; // SL.TLF.CACT.FE.ZS
   pop65Pct?: number; // SP.POP.65UP.TO.ZS
