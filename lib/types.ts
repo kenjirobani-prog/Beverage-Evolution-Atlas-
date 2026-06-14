@@ -29,11 +29,13 @@ export type AlcoholPermissibility = "normal" | "restricted";
 
 export type Stage = "S1" | "S2" | "S3" | "S4" | "S5";
 
-// One beverage cell: an illustrative per-capita proxy volume plus a coarse
-// read on how present Suntory's portfolio is in that country/category today.
+// One beverage cell. Carries the value plus its provenance so the UI can mark
+// real public-source data vs. illustrative proxy, per (country, category).
 export interface BeverageDatum {
-  // ILLUSTRATIVE proxy per-capita annual volume (rough, unit-agnostic index).
-  proxyPerCapita: number;
+  value: number; // per-capita figure (real unit when isProxy=false, else index)
+  unit: string; // e.g. "L純アルコール/人・年" for real, "暫定指数" for proxy
+  source: string; // e.g. "WHO (GHO)" for real, "暫定" for proxy
+  isProxy: boolean;
   suntory_presence: SuntoryPresence;
 }
 

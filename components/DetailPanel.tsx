@@ -112,7 +112,7 @@ export default function DetailPanel({
           </h2>
         </div>
         <p className="text-xs text-slate-500">
-          実質GDP/capita（PPP）${Math.round(view.gdp).toLocaleString()}
+          実質GDP/capita（PPP＝購買力平価）${Math.round(view.gdp).toLocaleString()}
           {view.gdpIsFallback && <span className="text-gold">（シード値）</span>}
           {view.alcohol_permissibility === "restricted" && (
             <span className="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
@@ -122,7 +122,7 @@ export default function DetailPanel({
         </p>
       </div>
 
-      <Section title="発展ステージ">
+      <Section title="酒類/飲料の市場状況">
         <div className="flex items-center gap-2">
           <span className="rounded-md bg-navy px-2.5 py-1 text-sm font-bold text-white">
             {stage}
@@ -131,7 +131,7 @@ export default function DetailPanel({
         </div>
       </Section>
 
-      <Section title={`日本=先行指標ラグ（拡散時計）・${CATEGORY_LABEL[category]}`}>
+      <Section title={`日本＝先行指標・${CATEGORY_LABEL[category]}`}>
         <p className="text-sm">
           ステータス：{" "}
           <span className={`font-semibold ${lagColor}`}>
@@ -209,7 +209,7 @@ export default function DetailPanel({
                     </span>
                   ) : (
                     <span className="whitespace-nowrap rounded-full border border-teal bg-white px-2 py-0.5 text-[10px] font-bold text-navy">
-                      ホワイトスペース（未展開）
+                      未展開
                     </span>
                   )}
                 </div>

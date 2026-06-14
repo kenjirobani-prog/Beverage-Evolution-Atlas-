@@ -14,7 +14,7 @@ import {
   ZAxis,
 } from "recharts";
 import { JAPAN_TAKEOFF_GDP } from "@/data/japanTrajectory";
-import { getBeverage } from "@/lib/beverage";
+import { categoryMeta, getBeverage } from "@/lib/beverage";
 import { CATEGORY_LABEL, PALETTE } from "@/lib/constants";
 import { projectedGdp } from "@/lib/forecast";
 import type { Category, CountryView, ISO3 } from "@/lib/types";
@@ -28,6 +28,9 @@ interface Point {
   year: number;
   isProjected: boolean;
   vol: number;
+  volUnit: string;
+  volIsProxy: boolean;
+  volSource: string;
   isJapan: boolean;
   fallback: boolean;
 }
@@ -55,7 +58,10 @@ function ChartTooltip({
         {p.nameJp} ({p.iso})
       </div>
       <div className="text-slate-600">
-        {p.isProjected ? `実質GDP（${p.year}年 投影）` : "実質GDP/capita（PPP）"}:{" "}
+        {p.isProjected
+          ? `実質GDP（${p.year}年 投影）`
+          : "実質GDP/capita（PPP＝購買力平価）"}
+        :{" "}
         <strong>${Math.round(p.gdp).toLocaleString()}</strong>
         {p.fallback && <span className="text-gold">（シード値）</span>}
       </div>
@@ -65,8 +71,10 @@ function ChartTooltip({
         </div>
       )}
       <div className="text-slate-600">
-        消費（暫定）: <strong>{p.vol}</strong>{" "}
-        <span className="italic text-slate-400">（代理値）</span>
+        消費: <strong>{p.vol}</strong> {p.volUnit}
+      </div>
+      <div className="text-[10px] text-slate-400">
+        {p.volIsProxy ? "暫定（代理値）" : `実データ：${p.volSource}`}
       </div>
     </div>
   );
@@ -97,7 +105,10 @@ export default function AtlasChart({
         baseGdp: v.gdp,
         year,
         isProjected,
-        vol: bev?.proxyPerCapita ?? 0,
+        vol: bev?.value ?? 0,
+        volUnit: bev?.unit ?? "暫定指数",
+        volIsProxy: bev?.isProxy ?? true,
+        volSource: bev?.source ?? "暫定",
         isJapan: v.iso3 === "JPN",
         fallback: v.gdpIsFallback,
       };
@@ -105,6 +116,7 @@ export default function AtlasChart({
     .filter((p) => p.gdp > 0);
 
   const anchor = JAPAN_TAKEOFF_GDP[category];
+  const meta = categoryMeta(category);
 
   return (
     <div className="h-[460px] w-full">
@@ -122,7 +134,7 @@ export default function AtlasChart({
             tick={{ fontSize: 11, fill: PALETTE.text }}
             tickFormatter={fmtUSD}
             label={{
-              value: "実質GDP/capita（PPP・定数国際$）— 対数軸",
+              value: "実質GDP/capita（PPP＝購買力平価・定数国際$）— 対数軸",
               position: "insideBottom",
               offset: -28,
               style: { fontSize: 12, fill: PALETTE.navy },
@@ -134,7 +146,7 @@ export default function AtlasChart({
             name="Proxy per-capita"
             tick={{ fontSize: 11, fill: PALETTE.text }}
             label={{
-              value: `${CATEGORY_LABEL[category]}／一人当たり消費（暫定）`,
+              value: `${CATEGORY_LABEL[category]}／一人当たり消費（${meta.unit}）`,
               angle: -90,
               position: "insideLeft",
               style: { fontSize: 12, fill: PALETTE.navy, textAnchor: "middle" },

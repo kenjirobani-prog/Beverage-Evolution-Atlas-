@@ -34,13 +34,21 @@ const ORDER: Category[] = [
 type P = SuntoryPresence;
 
 // Build a typed beverage record from two parallel tuples (volume, presence).
+// Everything here is PROXY/暫定; lib/beverage.ts overlays real values where
+// available (e.g. WHO alcohol for beer/spirits_main).
 function build(
   vols: number[],
   pres: P[],
 ): Record<Category, BeverageDatum> {
   const out = {} as Record<Category, BeverageDatum>;
   ORDER.forEach((cat, i) => {
-    out[cat] = { proxyPerCapita: vols[i], suntory_presence: pres[i] };
+    out[cat] = {
+      value: vols[i],
+      unit: "暫定指数",
+      source: "暫定",
+      isProxy: true,
+      suntory_presence: pres[i],
+    };
   });
   return out;
 }

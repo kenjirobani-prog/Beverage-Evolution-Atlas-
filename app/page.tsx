@@ -8,6 +8,7 @@ import DetailPanel from "@/components/DetailPanel";
 import YearSlider from "@/components/YearSlider";
 import { fetchWorldBankMetrics } from "@/lib/worldbank";
 import { FORECAST_MIN_YEAR } from "@/lib/forecast";
+import { categoryMeta } from "@/lib/beverage";
 import { allIso3, buildCountryViews } from "@/lib/view";
 import type { Category, CountryView, ISO3, WorldBankMetrics } from "@/lib/types";
 
@@ -84,11 +85,22 @@ export default function Home() {
                     selectedIso={selectedIso}
                     onSelect={setSelectedIso}
                   />
+                  <div className="px-2 pt-1">
+                    {categoryMeta(category).isProxy ? (
+                      <span className="inline-block rounded bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500">
+                        暫定（Passportで精緻化）
+                      </span>
+                    ) : (
+                      <span className="inline-block rounded bg-teal/20 px-2 py-0.5 text-[10px] font-medium text-navy">
+                        実データ：{categoryMeta(category).source}
+                      </span>
+                    )}
+                  </div>
                   <p className="px-2 pt-1 text-[10px] italic text-slate-400">
-                    縦軸＝一人当たり消費の暫定（代理）値（Passport導入前）。金のドット＝日本（先行指標）。金の縦線＝選択カテゴリーにおける日本の浸透GDP。
+                    縦軸＝選択カテゴリーの一人当たり消費（{categoryMeta(category).unit}）。金のドット＝日本（先行指標）。金の縦線＝選択カテゴリーにおける日本の浸透GDP。
                   </p>
                   <p className="px-2 pt-1 text-[10px] leading-snug text-slate-400">
-                    拡散時計は方向性の発展段階アナログ（実質PPPベース・概算）。正確な年数予測ではない。
+                    拡散時計は方向性の発展段階アナログ（実質PPP＝購買力平価ベース・概算）。正確な年数予測ではない。
                   </p>
                 </div>
               </section>
@@ -104,9 +116,11 @@ export default function Home() {
 
       <footer className="border-t border-slate-200 bg-light-blue/40">
         <div className="mx-auto max-w-[1400px] px-6 py-3 text-[11px] text-slate-500">
-          マクロ指標＝World Bankライブ取得（API v2・実質PPP定数国際$・取得可能な最新年）／飲料消費＝
+          マクロ指標＝World Bankライブ取得（API v2・実質GDP/capita〔PPP＝購買力平価・定数国際$〕・取得可能な最新年）／酒類（ビール・主流スピリッツ）＝
+          <strong>WHO (GHO) 実データ</strong>
+          （2022年・15歳以上・純アルコール換算）／その他の飲料消費＝
           <strong>暫定（代理）データ</strong>
-          。Passport導入時に差し替え。すべての飲料数値は暫定であり、外部引用不可。
+          。Passport導入時に差し替え。暫定値は外部引用不可。
         </div>
       </footer>
     </div>
