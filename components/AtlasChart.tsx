@@ -94,8 +94,9 @@ export default function AtlasChart({
   onSelect: (iso: ISO3) => void;
 }) {
   const data: Point[] = views
-    .map((v) => {
+    .map((v): Point | null => {
       const bev = getBeverage(v.iso3, category);
+      if (!bev) return null; // no data for this country/category -> drop point
       const isProjected = year > v.baseYear;
       return {
         iso: v.iso3,
@@ -105,15 +106,15 @@ export default function AtlasChart({
         baseGdp: v.gdp,
         year,
         isProjected,
-        vol: bev?.value ?? 0,
-        volUnit: bev?.unit ?? "暫定指数",
-        volIsProxy: bev?.isProxy ?? true,
-        volSource: bev?.source ?? "暫定",
+        vol: bev.value,
+        volUnit: bev.unit,
+        volIsProxy: bev.isProxy,
+        volSource: bev.source,
         isJapan: v.iso3 === "JPN",
         fallback: v.gdpIsFallback,
       };
     })
-    .filter((p) => p.gdp > 0)
+    .filter((p): p is Point => p !== null && p.gdp > 0)
     // On real-data categories, drop proxy points (e.g. TWN on beer/spirits)
     // so their index values don't distort the real-unit axis.
     .filter((p) => categoryMeta(category).isProxy || !p.volIsProxy);

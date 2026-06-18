@@ -57,6 +57,7 @@ export const WB_INDICATORS = {
   urbanPct: "SP.URB.TOTL.IN.ZS",
   femaleLaborPct: "SL.TLF.CACT.FE.ZS",
   pop65Pct: "SP.POP.65UP.TO.ZS",
+  popTotal: "SP.POP.TOTL", // total population, for per-capita conversion
 } as const;
 
 // Suntory brand palette.

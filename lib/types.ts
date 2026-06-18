@@ -20,9 +20,14 @@ export type Category =
   | "spirits_premium";
 
 export type ISO3 =
+  // Original proxy-seed universe.
   | "JPN" | "USA" | "DEU" | "GBR" | "FRA" | "KOR" | "CHN" | "VNM"
   | "IND" | "IDN" | "PHL" | "THA" | "MYS" | "MEX" | "BRA" | "NGA"
-  | "SGP" | "TWN" | "AUS" | "TUR" | "ZAF" | "EGY";
+  | "SGP" | "TWN" | "AUS" | "TUR" | "ZAF" | "EGY"
+  // Added with the Euromonitor Passport dataset.
+  | "AUT" | "BEL" | "CAN" | "HRV" | "DNK" | "FIN" | "GRC" | "HUN"
+  | "IRL" | "ITA" | "NLD" | "NZL" | "NOR" | "POL" | "PRT" | "ROU"
+  | "RUS" | "ESP" | "SWE" | "CHE" | "UKR";
 
 export type SuntoryPresence = "none" | "low" | "mid" | "high";
 
@@ -40,14 +45,18 @@ export interface BeverageDatum {
   suntory_presence: SuntoryPresence;
 }
 
-// Per-country seed record. `gdpFallback` is only used when the World Bank API
-// is missing a GDP/capita value for the country (e.g. TWN, not a WB member).
-export interface CountrySeed {
+// Country identity/metadata — the rendering universe. `gdpFallback` is only used
+// when the World Bank API is missing a GDP/capita value (e.g. TWN, not a WB member).
+export interface CountryMeta {
   iso3: ISO3;
   name: string;
   nameJp: string;
   alcohol_permissibility: AlcoholPermissibility;
   gdpFallback?: number;
+}
+
+// Per-country PROXY seed record (original universe; carries proxy beverages).
+export interface CountrySeed extends CountryMeta {
   beverages: Record<Category, BeverageDatum>;
 }
 
@@ -58,10 +67,12 @@ export interface WorldBankMetrics {
   urbanPct?: number; // SP.URB.TOTL.IN.ZS
   femaleLaborPct?: number; // SL.TLF.CACT.FE.ZS
   pop65Pct?: number; // SP.POP.65UP.TO.ZS
+  popTotal?: number; // SP.POP.TOTL (persons) — for per-capita conversion
 }
 
-// The merged view the UI actually consumes per country.
-export interface CountryView extends CountrySeed {
+// The merged view the UI actually consumes per country. Beverage figures are
+// read via getBeverage(), so the view itself carries only metadata + macro.
+export interface CountryView extends CountryMeta {
   metrics: WorldBankMetrics;
   // Effective GDP/capita PPP used by all logic (live, or seed fallback).
   gdp: number;

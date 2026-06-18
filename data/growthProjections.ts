@@ -7,7 +7,9 @@
 
 import type { ISO3 } from "@/lib/types";
 
-export const GROWTH_PCT: Record<ISO3, number> = {
+// Partial: Passport-added countries have no growth assumption yet (forecast
+// defaults missing entries to 0% — flat projection — until provided).
+export const GROWTH_PCT: Partial<Record<ISO3, number>> = {
   JPN: 1.0,
   USA: 1.5,
   DEU: 0.8,

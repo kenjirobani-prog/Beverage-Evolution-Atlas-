@@ -1,10 +1,23 @@
 // LIVE client-side fetch from the World Bank API v2 (no key, CORS-enabled).
 // Pulls the most-recent-non-empty value (mrnev=1) per country per indicator.
 
+import { APPROX_POP_2024_M } from "@/data/passportVolumes";
 import { WB_INDICATORS } from "./constants";
 import type { ISO3, WorldBankMetrics } from "./types";
 
 const BASE = "https://api.worldbank.org/v2";
+
+// Module-level population cache, populated by fetchWorldBankMetrics, so the
+// synchronous getBeverage() can convert Passport volumes to per-capita.
+const POP_CACHE: Record<string, number> = {};
+
+// Live population (persons), or APPROX_POP_2024_M fallback, or 0 if unknown.
+export function getPopulation(iso3: ISO3): number {
+  const live = POP_CACHE[iso3];
+  if (live != null) return live;
+  const approx = APPROX_POP_2024_M[iso3];
+  return approx != null ? approx * 1e6 : 0;
+}
 
 // World Bank rows look like: [ {page,...}, [ {country, value, date, ...}, ... ] ]
 interface WbRow {
@@ -42,7 +55,7 @@ async function fetchIndicator(
   return out;
 }
 
-// Fetch all four indicators in parallel and merge into per-country metrics.
+// Fetch all indicators in parallel and merge into per-country metrics.
 // Indicators degrade independently: a failed/missing one is simply omitted.
 export async function fetchWorldBankMetrics(
   isoList: ISO3[],
@@ -64,6 +77,8 @@ export async function fetchWorldBankMetrics(
       merged[iso][key] = obs.value;
       // Capture the base year of the GDP observation (used by the forecast).
       if (key === "gdpPcapPpp") merged[iso].gdpYear = obs.year;
+      // Cache live population for synchronous per-capita conversion.
+      if (key === "popTotal") POP_CACHE[iso] = obs.value;
     }
   });
 

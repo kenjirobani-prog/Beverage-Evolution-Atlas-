@@ -101,6 +101,16 @@ export default function Home() {
                       WHOのspirits定義は狭義（焼酎・泡盛・清酒・RTDを含まない）。
                     </p>
                   )}
+                  {category === "csd_sugar" && (
+                    <p className="px-2 pt-1 text-[10px] text-slate-400">
+                      Passport「炭酸」総量（加糖/ゼロ未分割）
+                    </p>
+                  )}
+                  {category === "rtd_tea_unsweet" && (
+                    <p className="px-2 pt-1 text-[10px] text-slate-400">
+                      Passport「RTD茶」総量（加糖含む）
+                    </p>
+                  )}
                   <p className="px-2 pt-1 text-[10px] italic text-slate-400">
                     縦軸＝選択カテゴリーの一人当たり消費（{categoryMeta(category).unit}）。金のドット＝日本（先行指標）。金の縦線＝選択カテゴリーにおける日本の浸透GDP。
                   </p>
